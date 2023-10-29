@@ -6,6 +6,7 @@ public class BallControl : MonoBehaviour
 {
     [SerializeField] bool isCarrying;
     [SerializeField] float force;
+    [SerializeField] BallPoint ballPoint;
     Rigidbody rb;
 
     void Start() {
@@ -21,8 +22,8 @@ public class BallControl : MonoBehaviour
 
         if (isCarrying)
         {
-            this.transform.position = FindObjectOfType<BallPoint>().transform.position;
-            this.transform.rotation = FindObjectOfType<BallPoint>().transform.rotation;
+            this.transform.position = ballPoint.transform.position;
+            this.transform.rotation = ballPoint.transform.rotation;
         }
     }
 
@@ -32,6 +33,7 @@ public class BallControl : MonoBehaviour
         Debug.Log("collide " + other.gameObject.tag);
         if (other.gameObject.tag == "Attacker")
         {
+            ballPoint = FindObjectOfType<BallPoint>();
             isCarrying = true;
         }
     }
@@ -39,6 +41,7 @@ public class BallControl : MonoBehaviour
     void OnTriggerExit(Collider other) {
         if (other.gameObject.tag == "Attacker")
         {
+            ballPoint = null;
             isCarrying = false;
         }
     }
