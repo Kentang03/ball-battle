@@ -10,6 +10,7 @@ public class BallControl : MonoBehaviour
 
     void Start() {
         rb = GetComponent<Rigidbody>();
+        isCarrying = false; 
     }
 
     void Update() {
@@ -23,7 +24,7 @@ public class BallControl : MonoBehaviour
         {
             this.transform.position = FindObjectOfType<BallPoint>().transform.position;
             this.transform.rotation = FindObjectOfType<BallPoint>().transform.rotation;
-        }
+        }   
     }
 
 
