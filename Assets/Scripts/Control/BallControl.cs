@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class BallControl : MonoBehaviour
 {
-    [SerializeField] bool isCarrying;
+    [SerializeField] bool isCarried;
     [SerializeField] float force;
     [SerializeField] BallPoint ballPoint;
     Rigidbody rb;
 
     void Start() {
         rb = GetComponent<Rigidbody>();
-        isCarrying = false; 
+        isCarried = false; 
     }
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            isCarrying = false;
+            isCarried = false;
             rb.AddForce(transform.rotation * Vector3.forward * force, ForceMode.Impulse);
         }
 
-        if (isCarrying)
+        if (isCarried)
         {
             this.transform.position = ballPoint.transform.position;
             this.transform.rotation = ballPoint.transform.rotation;
@@ -34,8 +34,8 @@ public class BallControl : MonoBehaviour
         Debug.Log("collide " + other.gameObject.tag);
         if (other.gameObject.tag == "Attacker")
         {
-            ballPoint = FindObjectOfType<BallPoint>();
-            isCarrying = true;
+            ballPoint = other.transform.GetComponentInChildren<BallPoint>();
+            isCarried = true;
         }
     }
 
@@ -43,7 +43,17 @@ public class BallControl : MonoBehaviour
         if (other.gameObject.tag == "Attacker")
         {
             ballPoint = null;
-            isCarrying = false;
+            isCarried = false;
         }
+    }
+
+    public bool IsCarried()
+    {
+        return isCarried;
+    }
+
+    public BallPoint GetBallPoint()
+    {
+        return ballPoint;
     }
 }
