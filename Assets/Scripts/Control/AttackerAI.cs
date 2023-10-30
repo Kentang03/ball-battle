@@ -12,8 +12,9 @@ enum TeamSide
 
 public class AttackerAI : MonoBehaviour, IAction
 {
+    [Header("Team Side")]
     [SerializeField] TeamSide side;
-    [SerializeField] GameObject midPoint, bluePoint, redPoint;    
+    GameObject midPoint, bluePoint, redPoint;    
     private Mover mover;
     private GameObject target;
     private GameObject goal;
@@ -48,7 +49,7 @@ public class AttackerAI : MonoBehaviour, IAction
             isArrive = false;
             MoveTo(randomPosition, 1f); 
         }
-        
+
         else if (IsBallCarried() && CompareBallPoint())
         {
             MoveTo(goal.transform.position, 1f);
