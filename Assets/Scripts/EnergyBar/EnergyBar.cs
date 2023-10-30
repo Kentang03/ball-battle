@@ -16,6 +16,7 @@ public class EnergyBar : MonoBehaviour
     float count;
     public Image[] energyPoints;
     float energy, maxEnergy = 6;
+    public GameEvent onSpawnCost;
 
     void Start()
     {
@@ -28,6 +29,7 @@ public class EnergyBar : MonoBehaviour
         RegenEnergy();
         EnergyBarFiller();
         ColorChanger();
+        onSpawnCost.Raise(this, energy);
     }
 
 
@@ -87,11 +89,11 @@ public class EnergyBar : MonoBehaviour
         }
     }
 
-    public void Damage(float damagePoints)
+    public void SpawnCost(float costPoints)
     {
         if (energy > 0)
         {
-            energy -= damagePoints;
+            energy -= costPoints;
         }
     }
 

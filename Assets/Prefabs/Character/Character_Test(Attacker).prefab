@@ -117,7 +117,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7122905861294188551, guid: f0cd40dcf5ed8a3439add0bb3eb11539, type: 3}
       propertyPath: m_Name
-      value: Character_Attacker
+      value: Character_Test(Attacker)
       objectReference: {fileID: 0}
     - target: {fileID: 7122905861294188551, guid: f0cd40dcf5ed8a3439add0bb3eb11539, type: 3}
       propertyPath: m_Layer
@@ -127,6 +127,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Attacker
       objectReference: {fileID: 0}
+    - target: {fileID: 7122905861294188558, guid: f0cd40dcf5ed8a3439add0bb3eb11539, type: 3}
+      propertyPath: side
+      value: Red
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 91748539495032809, guid: f0cd40dcf5ed8a3439add0bb3eb11539, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f0cd40dcf5ed8a3439add0bb3eb11539, type: 3}
@@ -135,18 +139,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7122905861294188551, guid: f0cd40dcf5ed8a3439add0bb3eb11539, type: 3}
   m_PrefabInstance: {fileID: 9100350153560712908}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3309382839874741103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2059083032921673419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66ab88e92ad3f924a834e76a92105494, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &3384082655269704420
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -163,6 +155,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &3309382839874741103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2059083032921673419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66ab88e92ad3f924a834e76a92105494, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2059083032921673423 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7122905861294188547, guid: f0cd40dcf5ed8a3439add0bb3eb11539, type: 3}

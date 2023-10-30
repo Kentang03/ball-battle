@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class SpawnObject : MonoBehaviour
 {
     public GameObject character;
     private Camera cam = null;
+    
 
     void Start() 
     {
@@ -24,6 +26,9 @@ public class SpawnObject : MonoBehaviour
             {
                 Instantiate(character, hit.point, Quaternion.identity);
             }
+
+            
         }
-    }
+    } 
+
 }
