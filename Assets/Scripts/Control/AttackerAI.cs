@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-enum TeamSide
+public enum TeamSide
 {
     Blue,
     Red
@@ -14,18 +14,23 @@ public class AttackerAI : MonoBehaviour, IAction
 {
     [Header("Team Side")]
     [SerializeField] TeamSide side;
-    GameObject midPoint, bluePoint, redPoint;    
+    [Header("Set Material")]
+    [SerializeField] private Material red;
+    [SerializeField] private Material blue;
+    [SerializeField] private Material gray;
+
+    private float waypointTolerance = 2f;
+    private float reactivateTime = 2.5f;
+
+    private GameObject midPoint, bluePoint, redPoint;    
     private Mover mover;
-    private GameObject target;
-    private GameObject goal;
-    private GameObject ball;
+    private GameObject target, goal, ball;
+    private Vector3 randomPosition;
 
-    Vector3 randomPosition;
+    private bool isArrive = true;
+    [SerializeField] private bool isStunned = false;
+    [SerializeField] private bool isDie = false;
 
-    bool isArrive = true;
-    bool isGoal = false;
-
-    float waypointTolerance = 2f;
 
     void Start() {
         mover = GetComponent<Mover>();
@@ -35,35 +40,44 @@ public class AttackerAI : MonoBehaviour, IAction
         redPoint = GameObject.Find("red_waypoint");
         bluePoint = GameObject.Find("blue_waypoint");
 
-        GetGoalSide();
+        SetGoalSide();
+        SetColorSide();
     }
 
     void Update()
     {
-        if (!IsBallCarried()) {
-            MoveTo(ball.transform.position, 0.75f);
+        if (isDie)
+        {
+            Cancel();
+            Destroy(this.gameObject);
+            return;
         }
 
-        else if (IsBallCarried() && !CompareBallPoint())
+        if (isStunned)
+        {
+            StartCoroutine(ReactivateStun());
+            return;
+        } 
+            
+        if (!IsBallCarried()) {
+            MoveTo(ball.transform.position, 1f);
+        }
+
+        else if (!IsPlayerCarrying())
         {
             isArrive = false;
-            MoveTo(randomPosition, 1f); 
+            MoveTo(randomPosition, 1f);
+
         }
 
-        else if (IsBallCarried() && CompareBallPoint())
+        else if (IsPlayerCarrying() && IsBallCarried())
         {
-            MoveTo(goal.transform.position, 1f);
+            MoveTo(goal.transform.position, 0.75f);
         }
-
 
         if (AtDestination(randomPosition))
         {
             isArrive = true;
-            Debug.Log("Arrived" + this.name);
-        }
-
-        if (isArrive)
-        {
             GetRandomDestination();
         }
 
@@ -98,7 +112,7 @@ public class AttackerAI : MonoBehaviour, IAction
     private void MoveTo(Vector3 target, float speedFraction)
     {
         GetComponent<ActionScheduler>().StartAction(this);
-        mover.StartMoveAction(target, 1f);
+        mover.StartMoveAction(target, speedFraction);
     }
 
     public void Cancel()
@@ -107,7 +121,7 @@ public class AttackerAI : MonoBehaviour, IAction
         mover.Cancel();
     }
 
-    private bool CompareBallPoint()
+    private bool IsPlayerCarrying()
     {
         return this.GetComponentInChildren<BallPoint>() == ball.GetComponent<BallControl>().GetBallPoint();
     }
@@ -117,7 +131,7 @@ public class AttackerAI : MonoBehaviour, IAction
         return ball.GetComponent<BallControl>().IsCarried();
     }
 
-    GameObject GetGoalSide()
+    void SetGoalSide()
     {
         if (this.side == TeamSide.Blue)
         {
@@ -127,7 +141,18 @@ public class AttackerAI : MonoBehaviour, IAction
         {
             goal = GameObject.Find("Blue_Goal");
         }
-        return goal;
+    }
+    
+    void SetColorSide()
+    {
+        if (this.side == TeamSide.Blue)
+        {
+            this.gameObject.GetComponent<MeshRenderer>().material = blue;
+        }
+        else if (this.side == TeamSide.Red)
+        {
+            this.gameObject.GetComponent<MeshRenderer>().material = red;
+        }
     }
 
     private bool AtDestination(Vector3 destination)
@@ -136,5 +161,28 @@ public class AttackerAI : MonoBehaviour, IAction
         return distanceToDestination < waypointTolerance;
     }
 
+    public TeamSide GetSide()
+    {
+        return side;
+    }
+
+    public void Stunned()
+    {
+        isStunned = true;
+    }
+    
+    public void Dead()
+    {
+        isDie = true;
+    }
+
+    IEnumerator ReactivateStun()
+    {
+        this.gameObject.GetComponent<MeshRenderer>().material = gray;
+        Cancel();
+        yield return new WaitForSeconds(reactivateTime);
+        SetColorSide();
+        isStunned = false;
+    }
 
 }

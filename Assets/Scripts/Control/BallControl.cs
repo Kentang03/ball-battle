@@ -15,6 +15,11 @@ public class BallControl : MonoBehaviour
     }
 
     void Update() {
+        if (ballPoint == null)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.A))
         {
             isCarried = false;
@@ -31,7 +36,6 @@ public class BallControl : MonoBehaviour
 
 
     void OnTriggerEnter(Collider other) {
-        Debug.Log("collide " + other.gameObject.tag);
         if (other.gameObject.tag == "Attacker")
         {
             ballPoint = other.transform.GetComponentInChildren<BallPoint>();
