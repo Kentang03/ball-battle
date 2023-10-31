@@ -23,15 +23,9 @@ public class BallControl : MonoBehaviour
 
         if (isCarrying)
         {
-<<<<<<< HEAD
             this.transform.position = ballPoint.transform.position;
             this.transform.rotation = ballPoint.transform.rotation;
         }
-=======
-            this.transform.position = FindObjectOfType<BallPoint>().transform.position;
-            this.transform.rotation = FindObjectOfType<BallPoint>().transform.rotation;
-        }   
->>>>>>> SpawnObject
     }
 
 
