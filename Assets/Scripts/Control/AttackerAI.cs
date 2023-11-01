@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public enum TeamSide
 {
@@ -15,24 +14,34 @@ public class AttackerAI : MonoBehaviour, IAction
     [Header("Team Side")]
     [SerializeField] TeamSide side;
     [Header("Set Material")]
-    [SerializeField] private Material red;
-    [SerializeField] private Material blue;
-    [SerializeField] private Material gray;
+    [SerializeField] private Material redTeamMat;
+    [SerializeField] private Material blueTeamMat;
+    [SerializeField] private Material inactiveMat;
 
     private float waypointTolerance = 2f;
     private float reactivateTime = 2.5f;
+    private float spawnTime = 0.5f;
+    private float carryingSpeed = 0.75f;
+    private float normalSpeed = 1.5f;
+    private float passSpeed = 2.5f;
 
     private GameObject midPoint, bluePoint, redPoint;    
     private Mover mover;
-    private GameObject target, goal, ball;
+    private GameObject goal, ball;
     private Vector3 randomPosition;
 
+    private bool isSpawned = false;
     private bool isArrive = true;
-    [SerializeField] private bool isStunned = false;
-    [SerializeField] private bool isDie = false;
+    private bool isActive = true;
+    private bool isDie = false;
+
+    void OnValidate() {
+        SetColorSide();
+    }
 
 
-    void Start() {
+    void Start() 
+    {
         mover = GetComponent<Mover>();
         ball = GameObject.FindWithTag("Ball");
 
@@ -41,38 +50,47 @@ public class AttackerAI : MonoBehaviour, IAction
         bluePoint = GameObject.Find("blue_waypoint");
 
         SetGoalSide();
-        SetColorSide();
     }
 
     void Update()
     {
+        if (!isSpawned) 
+        {
+            StartCoroutine(Spawning());
+            return;
+        }
+        if (!isActive)
+        {
+            if (IsCarryingBall())
+            {
+                ball.GetComponent<BallControl>().ResetCarry();
+            }
+            StartCoroutine(Reactivate());
+            return;
+        }
+
         if (isDie)
         {
             Cancel();
             Destroy(this.gameObject);
-            return;
         }
 
-        if (isStunned)
-        {
-            StartCoroutine(ReactivateStun());
-            return;
-        } 
             
-        if (!IsBallCarried()) {
-            MoveTo(ball.transform.position, 1f);
+        if (!IsBallCarried())
+        {
+            MoveTo(ball.transform.position, normalSpeed);
         }
 
-        else if (!IsPlayerCarrying())
+        else if (!IsCarryingBall())
         {
             isArrive = false;
-            MoveTo(randomPosition, 1f);
+            MoveTo(randomPosition, normalSpeed);
 
         }
 
-        else if (IsPlayerCarrying() && IsBallCarried())
+        else if (IsCarryingBall() && IsBallCarried())
         {
-            MoveTo(goal.transform.position, 0.75f);
+            MoveTo(goal.transform.position, carryingSpeed);
         }
 
         if (AtDestination(randomPosition))
@@ -80,9 +98,8 @@ public class AttackerAI : MonoBehaviour, IAction
             isArrive = true;
             GetRandomDestination();
         }
-
-        if (target == null) return;
     }
+
 
     private void GetRandomDestination()
     {
@@ -117,11 +134,10 @@ public class AttackerAI : MonoBehaviour, IAction
 
     public void Cancel()
     {
-        target = null;
         mover.Cancel();
     }
 
-    private bool IsPlayerCarrying()
+    public bool IsCarryingBall()
     {
         return this.GetComponentInChildren<BallPoint>() == ball.GetComponent<BallControl>().GetBallPoint();
     }
@@ -147,11 +163,11 @@ public class AttackerAI : MonoBehaviour, IAction
     {
         if (this.side == TeamSide.Blue)
         {
-            this.gameObject.GetComponent<MeshRenderer>().material = blue;
+            this.gameObject.GetComponent<MeshRenderer>().material = blueTeamMat;
         }
         else if (this.side == TeamSide.Red)
         {
-            this.gameObject.GetComponent<MeshRenderer>().material = red;
+            this.gameObject.GetComponent<MeshRenderer>().material = redTeamMat;
         }
     }
 
@@ -166,9 +182,11 @@ public class AttackerAI : MonoBehaviour, IAction
         return side;
     }
 
-    public void Stunned()
+    public void Deactivate()
     {
-        isStunned = true;
+        isActive = false;
+        ball.GetComponent<BallControl>().ResetCarry();
+        ball.GetComponent<BallControl>().Shoot();
     }
     
     public void Dead()
@@ -176,13 +194,25 @@ public class AttackerAI : MonoBehaviour, IAction
         isDie = true;
     }
 
-    IEnumerator ReactivateStun()
+    public bool IsActive()
     {
-        this.gameObject.GetComponent<MeshRenderer>().material = gray;
+        return isActive;
+    }
+
+    IEnumerator Reactivate()
+    {
+        this.gameObject.GetComponent<MeshRenderer>().material = inactiveMat;
         Cancel();
         yield return new WaitForSeconds(reactivateTime);
         SetColorSide();
-        isStunned = false;
+        isActive = true;
     }
-
+    
+    IEnumerator Spawning()
+    {
+        this.gameObject.GetComponent<MeshRenderer>().material = inactiveMat;
+        yield return new WaitForSeconds(spawnTime);
+        SetColorSide();
+        isSpawned = true;
+    }
 }

@@ -33,8 +33,6 @@ public class BallControl : MonoBehaviour
         }
     }
 
-
-
     void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "Attacker")
         {
@@ -49,6 +47,16 @@ public class BallControl : MonoBehaviour
             ballPoint = null;
             isCarried = false;
         }
+    }
+
+    public void ResetCarry() {
+        ballPoint = null;
+        isCarried = false;
+    }
+
+    public void Shoot()
+    {
+        rb.AddForce(transform.rotation * Vector3.forward * force, ForceMode.Impulse);
     }
 
     public bool IsCarried()

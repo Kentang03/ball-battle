@@ -9,9 +9,11 @@ public class WallLogic : MonoBehaviour
     void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "Attacker")
         {
-            if (side != other.gameObject.GetComponent<AttackerAI>().GetSide())
+            AttackerAI attacker = other.gameObject.GetComponent<AttackerAI>();
+
+            if (side != attacker.GetSide())
             {
-                Debug.Log(other.name + "Collide with wall");
+                attacker.Dead();
             }
         }
     }
