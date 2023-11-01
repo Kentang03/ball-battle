@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class Mover : MonoBehaviour, IAction
 {
     [SerializeField] float maxSpeed = 6f;
+    public string side;
 
     NavMeshAgent navMeshAgent;
 
