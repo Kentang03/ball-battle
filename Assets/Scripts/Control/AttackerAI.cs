@@ -82,6 +82,7 @@ public class AttackerAI : MonoBehaviour, IAction
         if (isDie)
         {
             Cancel();
+            ball.GetComponent<BallControl>().ResetCarry();
             Destroy(this.gameObject);
         }
 
