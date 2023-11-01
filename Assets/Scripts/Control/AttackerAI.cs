@@ -28,7 +28,8 @@ public class AttackerAI : MonoBehaviour, IAction
 
     private GameObject midPoint, bluePoint, redPoint;    
     private Mover mover;
-    private GameObject goal, ball;
+    private GameObject goal, ball; 
+    [SerializeField] private GameObject aura;
     private Vector3 randomPosition;
 
     AttackerAI[] targets;
@@ -87,18 +88,21 @@ public class AttackerAI : MonoBehaviour, IAction
             
         if (!IsBallCarried())
         {
+            aura.gameObject.SetActive(false);
             MoveTo(ball.transform.position, normalSpeed);
         }
 
         else if (!IsCarryingBall())
         {
             isArrive = false;
+            aura.gameObject.SetActive(false);
             MoveTo(randomPosition, normalSpeed);
 
         }
 
         else if (IsCarryingBall() && IsBallCarried())
         {
+            aura.gameObject.SetActive(true);
             MoveTo(goal.transform.position, carryingSpeed);
             GetClosestAlly();
         }
@@ -135,7 +139,7 @@ public class AttackerAI : MonoBehaviour, IAction
     {
         return UnityEngine.Random.Range(a, b);
     }
-    
+
     private Quaternion SetShootTarget()
     {
         Vector3 direction = (nearestAlly.transform.position - transform.position).normalized;

@@ -15,15 +15,17 @@ public class BallControl : MonoBehaviour
     }
 
     void Update() {
+        
+        if (this.transform.position.y < 0f)
+        {
+            this.transform.position = new Vector3(this.transform.position.x, 5f, this.transform.position.z);
+        }
+
         if (ballPoint == null)
         {
             return;
         }
 
-        if (this.transform.position.y < 0f)
-        {
-            this.transform.position = new Vector3(this.transform.position.x, 5f, this.transform.position.z);
-        }
 
         // if (Input.GetKeyDown(KeyCode.A))
         // {
