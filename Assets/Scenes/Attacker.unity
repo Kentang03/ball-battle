@@ -3216,7 +3216,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1288490082}
-  m_LocalRotation: {x: 0.7009093, y: 0.0000026194782, z: -0.0000025741545, w: 0.71325046}
+  m_LocalRotation: {x: 0.7009093, y: -0.0000026194782, z: 0.0000025741545, w: 0.71325046}
   m_LocalPosition: {x: 0, y: 104.8, z: -1.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3879,7 +3879,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1434949557}
-  m_LocalRotation: {x: 0.7009093, y: 0.0000026194782, z: -0.0000025741545, w: 0.71325046}
+  m_LocalRotation: {x: 0.7009093, y: -0.0000026194782, z: 0.0000025741545, w: 0.71325046}
   m_LocalPosition: {x: 0, y: 104.8, z: -1.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4275,7 +4275,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.6
+  m_Radius: 0.75
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1532173788
 MeshRenderer:
@@ -4370,7 +4370,7 @@ Rigidbody:
   m_GameObject: {fileID: 1532173785}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 0.2
   m_AngularDrag: 0.2
   m_UseGravity: 1
   m_IsKinematic: 0
