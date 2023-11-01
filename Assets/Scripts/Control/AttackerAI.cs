@@ -240,6 +240,7 @@ public class AttackerAI : MonoBehaviour, IAction
 
     IEnumerator Reactivate()
     {
+        aura.gameObject.SetActive(false);
         // this.GetComponent<NavMeshAgent>().radius = 0.1f;
         this.gameObject.GetComponent<MeshRenderer>().material = inactiveMat;
         Cancel();
