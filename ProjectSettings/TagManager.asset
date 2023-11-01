@@ -8,6 +8,9 @@ TagManager:
   - Ball
   - Wall
   - Goal
+  - Selectable
+  - Attacker_Field
+  - Deffender_Field
   layers:
   - Default
   - TransparentFX
