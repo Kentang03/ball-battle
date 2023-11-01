@@ -29,7 +29,6 @@ public class BallControl : MonoBehaviour
         if (isCarried)
         {
             this.transform.position = ballPoint.transform.position;
-            this.transform.rotation = ballPoint.transform.rotation;
         }
     }
 
@@ -54,9 +53,9 @@ public class BallControl : MonoBehaviour
         isCarried = false;
     }
 
-    public void Shoot()
+    public void Shoot(Quaternion target)
     {
-        rb.AddForce(transform.rotation * Vector3.forward * force, ForceMode.Impulse);
+        rb.AddForce(target * Vector3.forward * force, ForceMode.Impulse);
     }
 
     public bool IsCarried()

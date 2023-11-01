@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum TeamSide
 {
@@ -30,10 +31,15 @@ public class AttackerAI : MonoBehaviour, IAction
     private GameObject goal, ball;
     private Vector3 randomPosition;
 
+    AttackerAI[] targets;
+    [SerializeField] AttackerAI nearestAlly;
+
     private bool isSpawned = false;
     private bool isArrive = true;
     private bool isActive = true;
     private bool isDie = false;
+
+    private Quaternion passDirection;
 
     void OnValidate() {
         SetColorSide();
@@ -54,6 +60,9 @@ public class AttackerAI : MonoBehaviour, IAction
 
     void Update()
     {
+        targets = FindObjectsOfType<AttackerAI>();
+        GetClosestAlly();
+
         if (!isSpawned) 
         {
             StartCoroutine(Spawning());
@@ -91,6 +100,7 @@ public class AttackerAI : MonoBehaviour, IAction
         else if (IsCarryingBall() && IsBallCarried())
         {
             MoveTo(goal.transform.position, carryingSpeed);
+            GetClosestAlly();
         }
 
         if (AtDestination(randomPosition))
@@ -125,6 +135,14 @@ public class AttackerAI : MonoBehaviour, IAction
     {
         return UnityEngine.Random.Range(a, b);
     }
+    
+    private Quaternion SetShootTarget()
+    {
+        Vector3 direction = (nearestAlly.transform.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        return lookRotation;
+    }
+
     
     private void MoveTo(Vector3 target, float speedFraction)
     {
@@ -185,10 +203,27 @@ public class AttackerAI : MonoBehaviour, IAction
     public void Deactivate()
     {
         isActive = false;
+        
+        // ball.GetComponent<BallControl>().SetBallRotation(passDirection);
+        ball.GetComponent<BallControl>().Shoot(SetShootTarget());
         ball.GetComponent<BallControl>().ResetCarry();
-        ball.GetComponent<BallControl>().Shoot();
     }
-    
+
+    private void GetClosestAlly()
+    {
+        float nearestDistance = 99999;
+
+        for (int i = 0; i < targets.Length; i++)
+        {
+            float distance = Vector3.Distance(this.transform.position, targets[i].transform.position);
+            if (this == targets[i].GetComponent<AttackerAI>()) continue;
+            if (distance < nearestDistance)
+            {
+                nearestAlly = targets[i].GetComponent<AttackerAI>();
+            }
+        }
+    }
+
     public void Dead()
     {
         isDie = true;
@@ -201,10 +236,12 @@ public class AttackerAI : MonoBehaviour, IAction
 
     IEnumerator Reactivate()
     {
+        // this.GetComponent<NavMeshAgent>().radius = 0.1f;
         this.gameObject.GetComponent<MeshRenderer>().material = inactiveMat;
         Cancel();
         yield return new WaitForSeconds(reactivateTime);
         SetColorSide();
+        // this.GetComponent<NavMeshAgent>().radius = 0.5f;
         isActive = true;
     }
     

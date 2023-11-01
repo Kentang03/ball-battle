@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class DefenderAI : MonoBehaviour, IAction
 {
@@ -13,7 +14,7 @@ public class DefenderAI : MonoBehaviour, IAction
     [SerializeField] private Material blueTeamMat;
     [SerializeField] private Material inactiveMat;
     
-    [SerializeField] private GameObject field;
+    private GameObject field;
 
     bool isStandby = true;
     float detectionRange = 0.35f;
@@ -23,17 +24,21 @@ public class DefenderAI : MonoBehaviour, IAction
     float normalSpeed = 1f;
     float returnSpeed = 2f;
 
+    [Header("Game Object")]
+    [SerializeField] GameObject detectionArea;
+
     Vector3 size;
     Vector3 returnPosition;
     Mover mover;
 
     bool isActive = true;
     bool isAttackerInRange = false;
-    [SerializeField] bool isCollision = false;
+    bool isCollision = false;
     bool isSpawned = false;
 
-    [SerializeField] GameObject[] targets;
+    GameObject[] targets;
     AttackerAI target;
+    MeshRenderer meshRenderer;
 
     void OnValidate() {
         SetColorSide();
@@ -41,6 +46,8 @@ public class DefenderAI : MonoBehaviour, IAction
 
     void Start() {
         mover = GetComponent<Mover>();
+        meshRenderer = this.gameObject.GetComponent<MeshRenderer>();
+
         targets = GameObject.FindGameObjectsWithTag("Attacker");
         field = GameObject.Find("Field");
 
@@ -72,7 +79,14 @@ public class DefenderAI : MonoBehaviour, IAction
 
         targets = GameObject.FindGameObjectsWithTag("Attacker");
         // Get Attacker that carrying ball
+
+
         GetAttackerCarryingBall();
+        if (target != null && !target.IsCarryingBall())
+        {
+            target = null;
+        }
+        
 
         if (target != null && TargetInDistance())
         {
@@ -110,11 +124,6 @@ public class DefenderAI : MonoBehaviour, IAction
             {
                 target = targets[i].GetComponent<AttackerAI>();
             }
-
-            else if (targets[i].GetComponent<AttackerAI>().IsCarryingBall())
-            {
-                target = null;
-            }
         }
     }
 
@@ -149,7 +158,7 @@ public class DefenderAI : MonoBehaviour, IAction
 
     IEnumerator Spawning()
     {
-        this.gameObject.GetComponent<MeshRenderer>().material = inactiveMat;
+        meshRenderer.material = inactiveMat;
         yield return new WaitForSeconds(spawnTime);
         SetColorSide();
         isSpawned = true;
@@ -157,12 +166,21 @@ public class DefenderAI : MonoBehaviour, IAction
 
     IEnumerator Reactivate()
     {
-        this.gameObject.GetComponent<MeshRenderer>().material = inactiveMat;
+        isAreaVisualActive(false);
+        meshRenderer.material = inactiveMat;
         Cancel();
         mover.MoveTo(returnPosition, returnSpeed);
+        this.GetComponent<NavMeshAgent>().radius = 0.1f;
         yield return new WaitForSeconds(reactivateTime);
         SetColorSide();
+        this.GetComponent<NavMeshAgent>().radius = 0.5f;
+        isAreaVisualActive(true);
         isActive = true;
+    }
+
+    private void isAreaVisualActive(bool answer)
+    {
+        detectionArea.gameObject.SetActive(answer);
     }
 
     void OnDrawGizmos() {
