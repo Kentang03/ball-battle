@@ -3216,7 +3216,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1288490082}
-  m_LocalRotation: {x: 0.7009093, y: -0.0000026194782, z: 0.0000025741545, w: 0.71325046}
+  m_LocalRotation: {x: 0.7009093, y: 0.0000026194782, z: -0.0000025741545, w: 0.71325046}
   m_LocalPosition: {x: 0, y: 104.8, z: -1.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3879,7 +3879,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1434949557}
-  m_LocalRotation: {x: 0.7009093, y: -0.0000026194782, z: 0.0000025741545, w: 0.71325046}
+  m_LocalRotation: {x: 0.7009093, y: 0.0000026194782, z: -0.0000025741545, w: 0.71325046}
   m_LocalPosition: {x: 0, y: 104.8, z: -1.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4356,7 +4356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   side: 0
   isCarried: 0
-  force: 21
+  force: 6
   ballPoint: {fileID: 0}
   midPoint: {fileID: 2057215947}
   bluePoint: {fileID: 6850621}
