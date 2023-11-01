@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Attacker.unity
+    guid: 05a9a39a824b83d49b75858aeee85978
+  - enabled: 1
+    path: Assets/Scenes/Deffender.unity
+    guid: c211928badbbc134fbeec3b55144d0fa
   m_configObjects: {}
