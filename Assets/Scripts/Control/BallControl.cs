@@ -20,11 +20,16 @@ public class BallControl : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (this.transform.position.y < 0f)
         {
-            isCarried = false;
-            rb.AddForce(transform.rotation * Vector3.forward * force, ForceMode.Impulse);
+            this.transform.position = new Vector3(this.transform.position.x, 5f, this.transform.position.z);
         }
+
+        // if (Input.GetKeyDown(KeyCode.A))
+        // {
+        //     isCarried = false;
+        //     rb.AddForce(transform.rotation * Vector3.forward * force, ForceMode.Impulse);
+        // }
 
         if (isCarried)
         {
