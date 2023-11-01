@@ -233,6 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7abce651e82363a45b502256f122a756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreSystem: {fileID: 0}
   side: 1
 --- !u!65 &235865690
 BoxCollider:
@@ -360,7 +361,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 323830706}
-  m_LocalRotation: {x: -0.02961073, y: 0.967985, z: -0.20746177, w: -0.13815914}
+  m_LocalRotation: {x: -0.029610736, y: 0.967985, z: -0.20746179, w: -0.13815916}
   m_LocalPosition: {x: -53.292, y: 45.604107, z: 18.60588}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -681,6 +682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7abce651e82363a45b502256f122a756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreSystem: {fileID: 0}
   side: 0
 --- !u!65 &852204993
 BoxCollider:
@@ -1365,7 +1367,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1375650526}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1771108891}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Attacker
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1375650526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2183,6 +2197,7 @@ GameObject:
   - component: {fileID: 1771108889}
   - component: {fileID: 1771108888}
   - component: {fileID: 1771108887}
+  - component: {fileID: 1771108891}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2273,6 +2288,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1771108891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771108886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1795f734e8e09b46a7a490ae2e5af96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loseUI: {fileID: 0}
+  winUI: {fileID: 0}
 --- !u!1 &1816794172
 GameObject:
   m_ObjectHideFlags: 0
@@ -2350,7 +2379,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1816794172}
-  m_LocalRotation: {x: -0.02961073, y: 0.967985, z: -0.20746177, w: -0.13815914}
+  m_LocalRotation: {x: -0.029610736, y: 0.967985, z: -0.20746179, w: -0.13815916}
   m_LocalPosition: {x: 18.901283, y: 37.994976, z: 64.8652}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

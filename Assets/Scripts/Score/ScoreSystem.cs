@@ -8,7 +8,9 @@ public class ScoreSystem : MonoBehaviour
 {
     public TextMeshProUGUI blueScoreText;
     public TextMeshProUGUI redScoreText;
+    public MenuManager menuManager;
     public string scenename;
+    public int winScore = 5;
     // private string blueScore;
     // private string redScore;
     public ScoreSO scoreSO;
@@ -17,6 +19,7 @@ public class ScoreSystem : MonoBehaviour
     {
         blueScoreText.text = "score : " + scoreSO.blueScore;
         redScoreText.text = "score : " + scoreSO.redScore;
+        EndCondition();
     }
     
     public void BlueScore()
@@ -24,7 +27,7 @@ public class ScoreSystem : MonoBehaviour
         scoreSO.blueScore += 1;
         // blueScore += 1;
         blueScoreText.text = "score : " + scoreSO.blueScore;
-        // LoadScene(scenename);
+        LoadScene(scenename);
     }
 
   
@@ -34,8 +37,20 @@ public class ScoreSystem : MonoBehaviour
         scoreSO.redScore += 1;
         // redScore += 1;
         redScoreText.text = "score : " + scoreSO.redScore;
-        // LoadScene(scenename);
+        LoadScene(scenename);
     }
+
+    public void EndCondition()
+    {
+        if(scoreSO.blueScore == winScore)
+        {
+            menuManager.SetWinUI();
+        }
+        else if (scoreSO.redScore == winScore)
+        {
+            menuManager.SetLoseUI();
+        }
+    }
 
 
 

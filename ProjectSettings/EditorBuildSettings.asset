@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Deffender.unity
     guid: c211928badbbc134fbeec3b55144d0fa
+  - enabled: 1
+    path: Assets/Scenes/UI_Menu/MainMenu.unity
+    guid: eaf6af35a0538ea4ea25bc9dffe3f98d
   m_configObjects: {}

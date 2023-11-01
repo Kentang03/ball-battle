@@ -7,4 +7,12 @@ using UnityEngine;
     {
         public int redScore;
         public int blueScore;
+
+        private void OnValidate()
+        {
+            redScore = 0;
+            blueScore = 0;
+        }
+        
+        
     }
